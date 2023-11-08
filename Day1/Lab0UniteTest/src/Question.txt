@@ -1,0 +1,35 @@
+1.Where is the assertEquals method defined? What does it do? Can we use assertEquals for more than just int types? (Hint: Consult the API for JUnit)
+
+   defined in import static org.junit.jupiter.api.Assertions.*;
+   Assert that expected and actual are equal.
+   Yes, can use byte,char, long and so on.
+
+
+2.Briefly describe what each of the three tests is checking.
+
+    emptyArray(): This test is checking the behavior of the findSmallestDiff method when it is given an empty array. According to the method specification, if the array contains less than two items, it should return -1. Therefore, this test asserts that the method returns -1 for an empty array, ensuring that the method handles the case of insufficient data correctly.
+    allArrayElementsEqual(): This test checks how the method behaves when all elements in the array are equal. In such a scenario, the smallest difference between any two elements would be 0 because the subtraction of any number by itself is 0. The test asserts that the method returns 0 when all array elements are the same.
+    smallRandomArrayElements(): This test verifies the method's functionality with an array that has a small number of random elements. The test provides a specific array and checks whether the method correctly calculates the smallest difference between any pair of integers in the array. The expected result (the smallest difference) is provided, and the test asserts that the method returns this value
+
+3.Why is our unimplemented findSmallestDiff method passing one of the tests?
+
+    The findSmallestDiff method is passing the emptyArray() test because the initial check within the method correctly handles the case when the input array has less than two elements.
+    The method is designed to return -1 if the array is empty or has only one element, since it's not possible to find a difference between elements in such cases.
+
+
+4.Why are we failing the third test? How should our method be modified to correct this?
+
+    Because the diff might be negative, -8 is less than 4, we need to use abs() to make sure all diff is positive.
+
+5.What is the appropriate call to assertEquals for your new test (test 4)?
+
+     int[] arr4 = new int[] { 1, 3, -8, 0};
+     assertEquals(1, DiffUtil.findSmallestDiff(arr4));
+
+6.Provide one more test (test 5) for the findSmallestDiff method. Briefly describe your test and write the call to assertEquals here.
+
+    int[] arr5 = new int[] {-5, -10, -15, -20};
+    assertEquals(5, DiffUtil.findSmallestDiff(arr5));
+    This test checks if the method is robust against negative values and whether it can handle a sequence where the natural ordering of numbers provides the smallest difference.
+
+7.Briefly describe your unit tests for Assignment 1.
