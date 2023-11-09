@@ -50,7 +50,6 @@ public class Book {
    * @return true if "other" is a Book and is equal to "this", false otherwise
    */
   public boolean equals(Object other) {
-    // FILL IN -- do not return false unless appropriate
     // 首先检查 other 是否为 null
     if (other == null) {
       return false;

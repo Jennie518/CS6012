@@ -6,6 +6,7 @@ public class LibraryBookGeneric<Type> extends Book {
     public LibraryBookGeneric(long isbn, String author, String title) {
         super(isbn, author, title);
     }
+
     public Type getHolder(){
         return this.holder;
     }
