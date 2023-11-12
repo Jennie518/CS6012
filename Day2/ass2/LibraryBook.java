@@ -1,9 +1,9 @@
 package assignment02;
 import java.util.GregorianCalendar;
-public class LibraryBookGeneric<Type> extends Book {
+public class LibraryBook<Type> extends Book {
     private Type holder;
     private GregorianCalendar dueDate;
-    public LibraryBookGeneric(long isbn, String author, String title) {
+    public LibraryBook(long isbn, String author, String title) {
         super(isbn, author, title);
     }
 

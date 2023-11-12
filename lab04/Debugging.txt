@@ -1,0 +1,17 @@
+Which two binarySearch tests are failing?
+    Test 2 and 3
+What are the values of arr and goal passed in to binary search?
+    int array and int goal
+For each of the two cases of binarySearch that are failing, which return statements are they executing in error (is it returning true when it should be returning false, or the other way around)?
+    return statements:"Binary search is broken"
+    Test3 should return false but return true and test4 return false but it should return true.
+What is the bug in binarySearch? How do you fix it?
+    bug is that the mid is index of arr
+Which loops appear to be inifinite?
+    loop2
+For the loops that you found to be infinite, briefly explain why they are never progressing.
+    Because when b is 0, any number mutiple b is equal to 0
+What does the call to password.split(" ") appear to do? Hint: examine the input value of "password", then examine the items in the "tokens" array returned by the call.
+    The call to password.split(" ") is used to divide the input password string into an array of substrings, or "tokens", based on spaces.
+What is the correct password?
+    password：1 4 9 16 25
