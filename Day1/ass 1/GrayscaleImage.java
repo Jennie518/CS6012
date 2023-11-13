@@ -93,7 +93,6 @@ public class GrayscaleImage {
      * @throws IllegalArgumentException if x, y are not within the image width/height
      */
     public double getPixel(int x, int y) {
-        //STUDENT Fill in this in to work correctly
         if (x < 0 || x >= imageData[0].length || y < 0 || y >= imageData.length) {
             throw new IllegalArgumentException("Coordinates out of bounds");
         }
@@ -114,13 +113,12 @@ public class GrayscaleImage {
             return false;
         }
         GrayscaleImage otherImage = (GrayscaleImage) other;
-        //STUDENT: implement equals to return true only when all pixels are exactly equal
         if (imageData.length != otherImage.imageData.length || imageData[0].length != otherImage.imageData[0].length) {
             return false;
-        }
+        }//check where they have same size
         for (int row = 0; row < imageData.length; row++) {
             for (int col = 0; col < imageData[0].length; col++) {
-                if (imageData[row][col] != otherImage.imageData[row][col]) {
+                if (imageData[row][col] != otherImage.imageData[row][col]) { //check each value of pixel
                     return false;
                 }
             }
@@ -135,7 +133,6 @@ public class GrayscaleImage {
      * @return the average of the imageData array
      */
     public double averageBrightness() {
-        //STUDENT FILL ME IN WITH A CORRECT IMPLEMENTATION
         double sum = 0;
         int count = 0;
         for (int row = 0; row < imageData.length; row++) {
@@ -156,14 +153,7 @@ public class GrayscaleImage {
      * @return a GrayScale image with pixel data uniformly rescaled so that its averageBrightness() is 127
      */
     public GrayscaleImage normalized() {
-        //STUDENT FILL ME IN WITH A CORRECT IMPLEMENTATION
-        double totalBrightness = 0;
-        for (int row = 0; row < imageData.length; row++) {
-            for (int col = 0; col < imageData[row].length; col++) {
-                totalBrightness += imageData[row][col];
-            }
-        }
-        double currentAverage = totalBrightness / (imageData.length * imageData[0].length);
+        double currentAverage = this.averageBrightness();
 
         // Check if the currentAverage is 0, which means all pixels are 0 (black image)
         // In such a case, the normalized image should also be all 0s.
@@ -194,8 +184,7 @@ public class GrayscaleImage {
      * @return a new GrayscaleImage that is a mirrored version of the this
      */
     public GrayscaleImage mirrored() {
-        //STUDENT: FILL ME IN WITH A CORRECT IMPLEMENTATION
-        double[][] newImageData = new double[imageData[0].length][imageData.length];
+        double[][] newImageData = new double[imageData.length][imageData[0].length];
         for (int row = 0; row < imageData.length; row++) {
             for (int col = 0; col < imageData[row].length; col++) {
                 newImageData[row][imageData[row].length - col - 1] = imageData[row][col];
@@ -218,8 +207,7 @@ public class GrayscaleImage {
      * @throws IllegalArgumentException if the specified rectangle goes outside the bounds of the original image
      */
     public GrayscaleImage cropped(int startRow, int startCol, int width, int height) {
-        //STUDENT: FILL ME IN
-        if (startRow < 0 || startCol < 0 || startRow + height > imageData.length || startCol + width > imageData[0].length) {
+        if (startRow < 0 || startRow >  imageData.length || startCol >imageData[0].length ||startCol < 0 || startRow + height > imageData.length || startCol + width > imageData[0].length||height <=0||width<=0) {
             throw new IllegalArgumentException("Cropped range out of bounds");
         }
         double[][] newImageData = new double[height][width];
@@ -231,6 +219,7 @@ public class GrayscaleImage {
         GrayscaleImage newImg = new GrayscaleImage(newImageData);
         return newImg;
     }
+
 
     /**
      * Returns a new "centered" square image (new width == new height)
@@ -244,7 +233,6 @@ public class GrayscaleImage {
      * @return a new, square, GrayscaleImage
      */
     public GrayscaleImage squarified() {
-        //STUDENT: FILL ME IN
             if (imageData.length == imageData[0].length) {
                 return new GrayscaleImage(imageData);
             }

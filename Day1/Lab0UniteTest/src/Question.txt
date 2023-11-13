@@ -13,8 +13,7 @@
 
 3.Why is our unimplemented findSmallestDiff method passing one of the tests?
 
-    The findSmallestDiff method is passing the emptyArray() test because the initial check within the method correctly handles the case when the input array has less than two elements.
-    The method is designed to return -1 if the array is empty or has only one element, since it's not possible to find a difference between elements in such cases.
+    The test allArrayElementsEqual may pass with an unimplemented findSmallestDiff method if it returns 0, which is the expected result for an array of equal elements.
 
 
 4.Why are we failing the third test? How should our method be modified to correct this?
@@ -33,3 +32,21 @@
     This test checks if the method is robust against negative values and whether it can handle a sequence where the natural ordering of numbers provides the smallest difference.
 
 7.Briefly describe your unit tests for Assignment 1.
+
+	Setup Method: Initializes common test images before each test. Ensures fresh images for every test case to prevent side effects.
+	
+	Boundary Condition Testing: Verifies that the getPixel method returns correct values at the edges of the image, which are critical for image processing.
+	
+	Out of Bounds Testing: Ensures that an exception is thrown when trying to access pixels outside the image boundaries, preventing invalid array access.
+	
+	 Equality Testing: Checks that the equals method properly identifies when two GrayscaleImage objects are not the same, which includes comparing to objects of different types and checking for small pixel value differences.
+	
+	Average Brightness Testing: Confirms that the averageBrightness method accurately calculates the average for images with both fractional and single-pixel values.
+
+	 Normalization Testing: Validates that the normalized method does not alter an image that already has the target average brightness and that it correctly normalizes wide images.
+	
+	Mirroring Testing: Tests the mirrored method on both single row and wide images to ensure it reverses the pixels correctly across the y-axis.
+	
+	Cropping Testing: Ensures that the cropped method returns the correct sub-image when given a single pixel or a specific section and that it throws an exception for invalid crop dimensions.
+	
+	Squarification Testing: Checks the squarified method on both already square and wide images to confirm it results in a proper square image, either by leaving it unchanged or cropping excess columns.

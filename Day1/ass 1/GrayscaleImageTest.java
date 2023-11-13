@@ -75,7 +75,16 @@ class GrayscaleImageTest {
         var squared = smallWide.squarified();
         var expected = new GrayscaleImage(new double[][]{{1,2},{4,5}});
         assertEquals(squared, expected);
-    }//test odd
+    }
+
+    @Test
+    void testSquarifiedWithSquareImage() {
+        var squareImage = smallSquare.squarified();
+        var expectedImage = new GrayscaleImage(new double[][]{{1,2},{3,4}});
+        // 测试结果是否与原图像相同
+        assertEquals(squareImage, expectedImage, "The squarified image should be the same as the original square image.");
+    }
+
 
     @Test
     void testGetPixelThrowsOnNegativeX(){
