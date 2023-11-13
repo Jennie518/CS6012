@@ -1,9 +1,12 @@
-package lab03;
+package assignment03;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 public class ContainsTimingExperiment {
 
@@ -15,7 +18,7 @@ public class ContainsTimingExperiment {
     while (System.nanoTime() - startTime < 1_000_000_000);//warm up
     // 这行代码的作用是创建一个空的循环，这个循环会一直执行，直到从循环开始到当前时间的差值达到1,000,000,000纳秒（1 second）。
 
-    try (FileWriter fw = new FileWriter(new File("data.csv"))) { // open up a file writer so we can write
+    try (FileWriter fw = new FileWriter(new File("/Users/zhanyijun/Desktop/CS6012/ass3/data.csv"))) { // open up a file writer so we can write
                                                                                 // to file.
       Random random = new Random();
       for (int exp = 10; exp <= 20; exp++) { // This is used as the exponent to calculate the size of the set.
@@ -28,15 +31,24 @@ public class ContainsTimingExperiment {
           // SET UP!
 //          SortedSet<Integer> set = new TreeSet<>();
           List<Integer> set = new ArrayList<>();
+          BinarySearchSet binarySearch = new BinarySearchSet();
           for (int i = 0; i < size; i++) {
             set.add(random.nextInt());
+            binarySearch.add(random.nextInt());
           }
+
           int findElement = random.nextInt(size); // This gets me a random int between 0 and size;
 
           // TIME IT!
           long start = System.nanoTime();
-          Collections.sort(set);//test contains()
+//          Collections.sort(set);//test contains()
+//          set.contains(findElement);
+          binarySearch.add(findElement);
+
           long stop = System.nanoTime();
+          totalTime += stop - start;
+          // 移除新元素
+          binarySearch.remove(findElement);
           totalTime += stop - start;
         }
         double averageTime = totalTime / (double) ITER_COUNT;
