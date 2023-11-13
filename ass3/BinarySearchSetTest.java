@@ -70,6 +70,20 @@ class BinarySearchSetTest {
         assertEquals(Integer.valueOf(2), it.next());
         assertEquals(Integer.valueOf(3), it.next());
         assertFalse(it.hasNext());
+
+    }
+    @Test
+    public void testIteratorRemove() {
+        BinarySearchSet<Integer> set = new BinarySearchSet<>();
+        set.add(1);
+        set.add(2);
+
+        Iterator<Integer> it = set.iterator();
+        assertEquals(Integer.valueOf(1), it.next());
+        it.remove(); // 移除元素 1
+
+        assertFalse(set.contains(1)); // 确保元素 1 被移除
+        assertTrue(set.contains(2)); // 确保元素 2 仍然存在
     }
 
 }

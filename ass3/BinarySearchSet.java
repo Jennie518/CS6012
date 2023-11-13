@@ -230,4 +230,5 @@ public class BinarySearchSet<E> implements SortedSet<E>,Iterable<E> {
     public E[] toArray() {
         return Arrays.copyOf(data, size);
     }
+
 }

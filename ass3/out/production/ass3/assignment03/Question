@@ -24,11 +24,9 @@ Does the growth rate of these running times match the Big-oh behavior you predic
 Create a plot of running times. Pay close attention to the problem size for which you are collecting running times.
 Beware that if you simply add N items, the size of the sorted set is always changing.
 A good strategy is to fill a sorted set with N items and time how long it takes to add one additional item.
-To do this repeatedly (i.e., iteration count),
-remove the item and add it again, being careful not to include the time required to call remove() in your total. In the worst-case, how much time does it take to locate the position to add an element (give your answer using Big-oh)?
+To do this repeatedly (i.e., iteration count),remove the item and add it again, being careful not to include the time required to call remove() in your total. In the worst-case, how much time does it take to locate the position to add an element (give your answer using Big-oh)?
 
     In my add method, since I use binary search, it should take around O(logN)
     With observation, when the size of array not that large, plot show the trend of adding a new element approach to O(logN)
     But when the size become larger, it close to O(N)
-
-    In worst case, it takes O(logN)
+    In worst case, it takes O(N)
