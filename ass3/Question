@@ -18,7 +18,7 @@ Do you expect that using a Java List would have more or less efficient and why?
 Be sure to use a decent iteration count to get a reasonable average of running times. Include your plot in your analysis document.
 Does the growth rate of these running times match the Big-oh behavior you predicted in question 2?
 
-    Not really it look like O(N)
+    Yes, almost like O(logN)
 
 4.Consider your add method. For an element not already contained in the set, how long does it take to locate the correct position at which to insert the element?
 Create a plot of running times. Pay close attention to the problem size for which you are collecting running times.

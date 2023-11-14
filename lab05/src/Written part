@@ -1,0 +1,18 @@
+1.What activities did you do as the driver? What activities did you do as the navigator?
+Activities as the Driver:
+As the driver, I was actively coding the solution and handling the keyboard and mouse. My focus was on translating our ideas into code and typing the actual implementation of the median methods. I debugged the code in real-time, wrote unit tests, and executed the code to check for immediate results.
+
+2.What are the advantages and disadvantages of serving in each role?
+The advantage of being the driver is that you gain hands-on experience with coding and immediate problem-solving. However, it can be a disadvantage if you get too involved in details and lose sight of the bigger picture.
+
+3.How often did you and your partner switch roles? Did you switch often enough?
+    My partner and I switched roles approximately every 40 minutes to ensure both of us stayed engaged and had a balanced experience. This frequency seemed sufficient, though at times, intense coding or debugging sessions required a slightly longer stint in one role.
+
+4.Preferred Role:
+  As the driver, I am in control of writing the actual code, which gives me a hands-on experience and helps me stay fully engaged with the immediate task at hand.
+
+5.Explain why this is a BAD test case for your method: assertEquals("bird", MedianSolver.median(new String[]{"bird", "cat", "dog", "ant"}))
+     The test case assertEquals("bird", MedianSolver.median(new String[]{"bird", "cat", "dog", "ant"})) is bad because it assumes the input array is sorted and does not specify the behavior for an even number of elements.
+
+6.Explain how you could change the test to make it "valid" and explain how you could change the specification so that this is considered a "good" test
+To make the test case valid, the array should be sorted before finding the median, and the expected result should be clearly defined for arrays with an even number of elements. The test should also ensure the array is not null or empty.
