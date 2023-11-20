@@ -1,0 +1,11 @@
+StackType,Operations,Time(ns)
+ArrayStack,1000,261417
+LinkedListStack,1000,385000
+ArrayStack,2000,76291
+LinkedListStack,2000,229916
+ArrayStack,5000,188167
+LinkedListStack,5000,267042
+ArrayStack,10000,377750
+LinkedListStack,10000,339584
+ArrayStack,20000,720875
+LinkedListStack,20000,727625
