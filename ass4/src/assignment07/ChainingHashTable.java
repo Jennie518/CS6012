@@ -7,6 +7,7 @@ public class ChainingHashTable implements Set<String>{
     private LinkedList<String>[] storage;
     private HashFunctor functor;
     private int size;
+    private int collisions;
     @SuppressWarnings("unchecked")
     public ChainingHashTable(int capacity, HashFunctor functor){
         // Initialize the storage with an array of buckets (LinkedLists).
@@ -24,22 +25,31 @@ public class ChainingHashTable implements Set<String>{
     @Override
     public boolean add(String item) {
         int index = Math.abs(functor.hash(item)) % storage.length;
-        // 如果链表为空，创建一个新的链表
-        if (storage[index] == null) {
+
+        // If the bucket is non-empty, and we're adding a new item, it's a collision.
+        if (storage[index] != null && !storage[index].isEmpty()) {
+            collisions++;  // This is where we count a collision.
+        } else if (storage[index] == null) {
+            // If the bucket is empty, initialize it with a new LinkedList.
             storage[index] = new LinkedList<>();
         }
 
-        // 在链表中查找是否已经存在相同的项
+        // Check if the item already exists in the bucket.
         LinkedList<String> list = storage[index];
         for (String existingItem : list) {
             if (existingItem.equals(item)) {
-                return false; // 项已经存在，不执行插入操作
+                return false; // Item already exists, no need to add.
             }
         }
-        // 项不存在，插入到链表中
+
+        // Item doesn't exist, so we add it to the bucket.
         list.add(item);
         size++;
-        return true; // 成功插入项
+        return true; // Item was successfully added.
+    }
+    // A getter for the collisions might be useful for your testing.
+    public int getCollisions() {
+        return collisions;
     }
 
     /**
