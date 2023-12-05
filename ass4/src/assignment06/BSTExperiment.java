@@ -58,7 +58,8 @@ public class BSTExperiment {
             Collections.shuffle(items); // 随机顺序测试前再次打乱
             long startTime = System.nanoTime();
             for (Integer item : items) {
-                bst.contains(item);
+//                bst.contains(item);
+                bst.remove(item); // 进行remove操作
             }
             long endTime = System.nanoTime();
             totalTime += (endTime - startTime);

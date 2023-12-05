@@ -1,0 +1,13 @@
+Data Structure,Operation,Data Order,Size,Time (ns)
+TreeSet,Creation,Ordered,1000,1658834
+TreeSet,Creation,Shuffled,1000,339042
+ArrayList,Creation,Ordered,1000,278375
+ArrayList,Creation,Shuffled,1000,224291
+TreeSet,Creation,Ordered,10000,2369916
+TreeSet,Creation,Shuffled,10000,2758833
+ArrayList,Creation,Ordered,10000,292667
+ArrayList,Creation,Shuffled,10000,462375
+TreeSet,Creation,Ordered,100000,12168958
+TreeSet,Creation,Shuffled,100000,25173625
+ArrayList,Creation,Ordered,100000,2263833
+ArrayList,Creation,Shuffled,100000,3200084

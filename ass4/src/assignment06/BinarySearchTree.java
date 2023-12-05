@@ -34,7 +34,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
         if(item == null){
             throw new NullPointerException();
         }
-        if(contains(item)){
+        if(contains(item)){//check the size to see whether add or not
             return false;
         }
 
@@ -43,7 +43,6 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
             root = newNode;
             return true;
         }
-
         Node current = root;
         while (true) {
             int cmp = item.compareTo(current.e);
@@ -119,7 +118,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
                 isChanged =true;
             }
         }
-        return isChanged;
+        return isChanged;//TODO can also check the size
     }
 
     /**
@@ -268,8 +267,9 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
      * the input item was actually removed); otherwise, returns false
      * @throws NullPointerException if the item is null
      */
-    @Override
-    public boolean remove(T item) {
+
+        @Override
+        public boolean remove(T item) {
         if (item == null) {
             throw new NullPointerException();
         }
@@ -315,6 +315,91 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
         }
         return current;
     }
+    //    @Override
+//    public boolean remove(T item) {
+//        if (item == null) {
+//            throw new NullPointerException("Cannot remove null items from the BST.");
+//        }
+//        Node parent = null;
+//        Node current = root;
+//        while (current != null) {
+//            int cmp = item.compareTo(current.e);
+//            if (cmp < 0) {
+//                parent = current;
+//                current = current.left;
+//            } else if (cmp > 0) {
+//                parent = current;
+//                current = current.right;
+//            } else { // 找到要删除的节点
+//                if (current.left != null && current.right != null) { // 两个子节点
+//                    // 找到右子树中最小的节点
+//                    Node successor = findSmallestNode(current.right);
+//                    // 将找到的后继节点的值复制到当前节点
+//                    current.e = successor.e;
+//                    // 从后继节点的父节点中删除后继节点
+//                    remove(successor, current);
+//                } else { // 一个或没有子节点
+//                    Node replacement = (current.left != null) ? current.left : current.right;
+//                    if (parent == null) { // 如果要删除的是根节点
+//                        root = replacement;
+//                    } else if (parent.left == current) {
+//                        parent.left = replacement;
+//                    } else {
+//                        parent.right = replacement;
+//                    }
+//                }
+//                return true;
+//            }
+//        }
+//        return false; // 未找到要删除的元素
+//    }
+//    // 一个辅助方法用于删除具有两个子节点的节点时的后继节点
+//    private void remove(Node nodeToRemove, Node parent) {
+//        if (nodeToRemove == null) {
+//            return; // 如果节点为空，则不进行操作
+//        }
+//        // 如果要删除的节点有右子节点，则寻找后继节点
+//        if (nodeToRemove.right != null) {
+//            Node current = nodeToRemove.right;
+//            Node previous = nodeToRemove;
+//
+//            // 寻找后继节点，即右子树中最小的节点
+//            while (current.left != null) {
+//                previous = current;
+//                current = current.left;
+//            }
+//            // 将后继节点的值复制到要删除的节点，然后删除后继节点
+//            if (previous != nodeToRemove) {
+//                nodeToRemove.e = current.e; // 复制后继节点的值
+//                previous.left = current.right; // 删除后继节点
+//            } else {
+//                nodeToRemove.e = current.e;
+//                nodeToRemove.right = current.right; // 删除后继节点
+//            }
+//        } else if (nodeToRemove.left != null) {
+//            // 如果要删除的节点只有左子节点
+//            if (parent != null) {
+//                if (parent.left == nodeToRemove) {
+//                    parent.left = nodeToRemove.left;
+//                } else {
+//                    parent.right = nodeToRemove.left;
+//                }
+//            } else {
+//                this.root = nodeToRemove.left; // 如果删除的是根节点
+//            }
+//        } else {
+//            // 如果要删除的节点是叶子节点
+//            if (parent != null) {
+//                if (parent.left == nodeToRemove) {
+//                    parent.left = null;
+//                } else {
+//                    parent.right = null;
+//                }
+//            } else {
+//                this.root = null; // 如果删除的是根节点
+//            }
+//        }
+//    }
 
     /**
      * Ensures that this set does not contain any of the items in the specified

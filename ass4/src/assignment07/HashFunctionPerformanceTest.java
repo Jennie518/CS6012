@@ -15,25 +15,27 @@ public class HashFunctionPerformanceTest {
         for (HashFunctor functor : functors) {
             for (int size = STEP; size <= MAX_SIZE; size += STEP) {
                 ChainingHashTable table = new ChainingHashTable(size, functor);
-                int collisions = 0;
+//                int collisions = 0;
+                //Time it
                 long startTime = System.nanoTime();
                 for (int i = 0; i < size; i++) {
-                    if (table.add(Integer.toString(i))) {
-                        collisions = table.getCollisions();
-                    }
+                    table.add(Integer.toString(i));
+//                    if (table.add(Integer.toString(i))) {
+//                        collisions = table.getCollisions();
+//                    }
                 }
                 long endTime = System.nanoTime();
                 long duration = endTime - startTime;
-                data.add(Arrays.asList(functor.getClass().getSimpleName(), size, collisions,duration));
+                data.add(Arrays.asList(functor.getClass().getSimpleName(),size,duration));
             }
         }
         writeResultsToCSV(data);
     }
 
     private static void writeResultsToCSV(List<List<Object>> data) {
-        String fileName = "hash_function_performance.csv";
+        String fileName = "hash_function_add_performance.csv";
         try (FileWriter writer = new FileWriter(fileName)) {
-            writer.write("Hash Function,Size,Collisions,Duration (ns)\n");
+            writer.write("Hash Function,Size,addTime (ns)\n");
             for (List<Object> row : data) {
                 StringJoiner joiner = new StringJoiner(",");
                 for (Object cell : row) {

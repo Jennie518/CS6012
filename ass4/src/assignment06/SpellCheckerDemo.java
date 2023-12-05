@@ -1,7 +1,7 @@
 package assignment06;
 
-import java.io.File;
-import java.util.List;
+        import java.io.File;
+        import java.util.List;
 
 /**
  * A small demonstration of the SpellChecker class.

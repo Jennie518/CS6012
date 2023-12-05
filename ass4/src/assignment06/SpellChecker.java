@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class SpellChecker {
 
-  private BinarySearchTree<String> dictionary;
+  BinarySearchTree<String> dictionary;
 
   /**
    * Default constructor--creates empty dictionary.

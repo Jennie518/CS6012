@@ -1,20 +1,21 @@
 package assignment07;
 
+import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
 
-public class ChainingHashTable implements Set<String>{
-    private LinkedList<String>[] storage;
-    private HashFunctor functor;
+public class QuadProbeHashTable implements Set<String> {
+    private String[] table;
     private int size;
-    private int collisions;
-    @SuppressWarnings("unchecked")
-    public ChainingHashTable(int capacity, HashFunctor functor){
-        // Initialize the storage with an array of buckets (LinkedLists).
-        // Each bucket stores items with the same hash code.
-        storage = (LinkedList<String>[]) new LinkedList[capacity];//linkedList is generic, type eraser
+    private HashFunctor functor;
+
+    public QuadProbeHashTable(int capacity, HashFunctor functor) {
         this.functor = functor;
+        this.size = 0;
+        int primeCapacity = getPrimeCapacity(capacity);
+        this.table = new String[primeCapacity];
     }
+
     /**
      * Ensures that this set contains the specified item.
      *
@@ -24,31 +25,30 @@ public class ChainingHashTable implements Set<String>{
      */
     @Override
     public boolean add(String item) {
-        int index = Math.abs(functor.hash(item)) % storage.length;
+        int hash = Math.abs(functor.hash(item));
+        int index = hash % table.length;
+        int i = 1;
 
-        // If the bucket is non-empty, and we're adding a new item, it's a collision.
-        if (storage[index] != null && !storage[index].isEmpty()) {
-            collisions++;  // This is where we count a collision.
-        } else if (storage[index] == null) {
-            // If the bucket is empty, initialize it with a new LinkedList.
-            storage[index] = new LinkedList<>();
-        }
-        // Check if the item already exists in the bucket.
-        LinkedList<String> list = storage[index];
-        for (String existingItem : list) {
-            if (existingItem.equals(item)) {
-                return false; // Item already exists, no need to add.
+        while (table[index] != null) {
+            if (table[index].equals(item)) {
+                // Item already exists in the table
+                return false;
             }
+            // Quadratic probing
+            index = (hash + i * i) % table.length;
+            i++;
         }
-        // Item doesn't exist, so we add it to the bucket.
-        list.add(item);
+
+        table[index] = item;
         size++;
-        return true; // Item was successfully added.
+
+        if (getLoadFactor() > 0.5) {
+            resize();
+        }
+
+        return true;
     }
-    // A getter for the collisions might be useful for your testing.
-    public int getCollisions() {
-        return collisions;
-    }
+
 
     /**
      * Ensures that this set contains all items in the specified collection.
@@ -60,14 +60,13 @@ public class ChainingHashTable implements Set<String>{
      */
     @Override
     public boolean addAll(Collection<? extends String> items) {
-        boolean changed = false;
-        for(String item: items) {
-            if (item != null) {
-                add(item);
-                changed = true; // 如果成功添加了项，将 changed 设置为 true
+        boolean isAdded = false;
+        for(String item:items){
+            if(add(item)){
+                isAdded = true;
             }
         }
-        return changed;
+        return isAdded;
     }
 
     /**
@@ -76,12 +75,12 @@ public class ChainingHashTable implements Set<String>{
      */
     @Override
     public void clear() {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] != null) {
-                storage[i].clear(); // 清空链表
-            }
-        }
-        size = 0; // 更新 size
+//        for(int i = 0;i < table.length;i++){
+//            table[i] = null;
+//        }
+//        size = 0;
+        Arrays.fill(table, null); // 使用Arrays.fill方法将整个数组的所有元素设置为null
+        size = 0;                 // 将存储的元素数量重置为0
     }
 
     /**
@@ -94,10 +93,17 @@ public class ChainingHashTable implements Set<String>{
      */
     @Override
     public boolean contains(String item) {
-        for (LinkedList<String> bucket : storage) {
-            if (bucket != null && bucket.contains(item)) {
+        int hash = Math.abs(functor.hash(item));
+        int index = hash % table.length;
+        int i = 1;
+        while (table[index] != null) {
+            if (table[index].equals(item)) {
+                // Item  exists in the table
                 return true;
             }
+            // Quadratic probing
+            index = (hash + i * i) % table.length;
+            i++;
         }
         return false;
     }
@@ -137,16 +143,20 @@ public class ChainingHashTable implements Set<String>{
      */
     @Override
     public boolean remove(String item) {
-        boolean removed = false; // 用于标记是否删除了项
-        for(LinkedList<String> bucket:storage){
-            if(bucket != null && bucket.contains(item)){
-                while (bucket.remove(item)) { // 循环删除所有匹配的项
-                    size--;
-                    removed = true; // 设置标记为 true，表示删除了项
-                }
+        int hash = Math.abs(functor.hash(item));
+        int index = hash % table.length;
+        int i = 1;
+        while (table[index] != null) {
+            if (table[index].equals(item)) {
+                // Item  exists in the table
+                table[index] = null;
+                return true;
             }
+            // Quadratic probing
+            index = (hash + i * i) % table.length;
+            i++;
         }
-        return removed;
+        return false;
     }
 
     /**
@@ -160,13 +170,12 @@ public class ChainingHashTable implements Set<String>{
      */
     @Override
     public boolean removeAll(Collection<? extends String> items) {
-        boolean removed = false; // 用于标记是否删除了任何项
-        for (String item : items) {
-            if (remove(item)) { // 尝试删除项，并检查是否删除成功
-                removed = true; // 如果成功删除了任何项，将标记设置为 true
-            }
+        boolean isRemoved = false;
+        for(String item:items){
+            remove(item);
+            isRemoved = true;
         }
-        return removed; // 返回是否删除了任何项
+        return isRemoved;
     }
 
     /**
@@ -175,5 +184,24 @@ public class ChainingHashTable implements Set<String>{
     @Override
     public int size() {
         return size;
+    }
+    private int getPrimeCapacity(int capacity) {
+        // Use BigInteger to find the next prime number larger than capacity
+        return BigInteger.valueOf(capacity).nextProbablePrime().intValue();
+    }
+
+    private void resize() {
+        // Resize the hash table and rehash all elements
+        QuadProbeHashTable newTable = new QuadProbeHashTable(table.length * 2, functor);
+        for (String item : table) {
+            if (item != null) {
+                newTable.add(item);
+            }
+        }
+        this.table = newTable.table;
+    }
+
+    private double getLoadFactor() {
+        return (double) size / table.length;
     }
 }

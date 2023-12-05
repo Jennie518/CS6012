@@ -30,9 +30,16 @@ public class PriorityQueueMinHeap<T extends Comparable<T>> implements PriorityQu
             return null;
         }
         T minElement = heap.get(0);
+
+        // Move the last element to the root
         heap.set(0, heap.get(heap.size() - 1));
         heap.remove(heap.size() - 1);
-        percolateDown(0);
+
+        // Percolate down to maintain the heap property
+        if (!isEmpty()) {
+            percolateDown(0);
+        }
+
         return minElement;
     }
 
@@ -80,7 +87,6 @@ public class PriorityQueueMinHeap<T extends Comparable<T>> implements PriorityQu
             index = minChildIndex;
             childIndex = leftChildIndex(index);
         }
-
         heap.set(index, element);
     }
 
