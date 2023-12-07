@@ -1,89 +1,156 @@
 package assignment03;
+import static org.junit.Assert.*;
+import org.junit.*;
 
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import java.util.*;
 
-import java.util.Iterator;
+public class BinarySearchSetTest {
 
-import static org.junit.jupiter.api.Assertions.*;
+    // 创建一个 BinarySearchSet 对象，用于测试
+    BinarySearchSet<Integer> set;
 
-class BinarySearchSetTest {
-    private BinarySearchSet<Integer> set;
-
-    @BeforeEach
+    @Before
     public void setUp() {
         set = new BinarySearchSet<>();
     }
 
     @Test
-    public void testAddAndContains() {
+    public void testAdd() {
         assertTrue(set.add(5));
-        assertTrue(set.contains(5));
-        assertFalse(set.add(5)); // 重复添加应该返回 false
+        assertTrue(set.add(3));
+        assertTrue(set.add(7));
+        assertFalse(set.add(5)); // 重复元素不应该添加成功
     }
 
     @Test
-    public void testAddOrder() {
-        set.add(3);
-        set.add(1);
-        set.add(4);
-        set.add(2);
-        assertTrue(set.contains(1));
-        assertTrue(set.contains(2));
-        assertTrue(set.contains(3));
-        assertTrue(set.contains(4));
-        assertEquals(4, set.size());
-    }
-    @Test
     public void testRemove() {
         set.add(5);
-        assertTrue(set.remove(5));
-        assertFalse(set.remove(5)); // 再次删除应该返回 false
+        set.add(3);
+        set.add(7);
+
+        assertTrue(set.remove(3));
+        assertFalse(set.remove(8)); // 不存在的元素不应该删除成功
+    }
+
+    @Test
+    public void testContains() {
+        set.add(5);
+        set.add(3);
+        set.add(7);
+
+        assertTrue(set.contains(5));
+        assertFalse(set.contains(8)); // 不存在的元素应该返回 false
     }
 
     @Test
     public void testSize() {
         assertEquals(0, set.size());
-        set.add(1);
-        set.add(2);
-        assertEquals(2, set.size());
+        set.add(5);
+        set.add(3);
+        set.add(7);
+        assertEquals(3, set.size());
+    }
+
+    @Test
+    public void testIsEmpty() {
+        assertTrue(set.isEmpty());
+        set.add(5);
+        assertFalse(set.isEmpty());
     }
 
     @Test
     public void testClear() {
-        set.add(1);
-        set.add(2);
+        set.add(5);
+        set.add(3);
+        set.add(7);
         set.clear();
-        assertEquals(0, set.size());
+        assertTrue(set.isEmpty());
     }
 
     @Test
     public void testIterator() {
-        set.add(1);
+        set.add(5);
         set.add(3);
-        set.add(2);
+        set.add(7);
 
-        Iterator<Integer> it = set.iterator();
-        assertTrue(it.hasNext());
-        assertEquals(Integer.valueOf(1), it.next());
-        assertEquals(Integer.valueOf(2), it.next());
-        assertEquals(Integer.valueOf(3), it.next());
-        assertFalse(it.hasNext());
+        Iterator<Integer> iterator = set.iterator();
+        assertTrue(iterator.hasNext());
+        assertEquals(Integer.valueOf(3), iterator.next());
+        assertTrue(iterator.hasNext());
+        assertEquals(Integer.valueOf(5), iterator.next());
+        assertTrue(iterator.hasNext());
+        assertEquals(Integer.valueOf(7), iterator.next());
+        assertFalse(iterator.hasNext());
+    }
 
+    @Test
+    public void testAddAll() {
+        List<Integer> list = Arrays.asList(5, 3, 7);
+        assertTrue(set.addAll(list));
+        assertFalse(set.addAll(list)); // 重复添加应该返回 false
+    }
+
+    @Test
+    public void testRemoveAll() {
+        set.add(5);
+        set.add(3);
+        set.add(7);
+
+        List<Integer> list = Arrays.asList(3, 7);
+        assertTrue(set.removeAll(list));
+        assertFalse(set.removeAll(list)); // 重复删除应该返回 false
+    }
+
+
+    @Test
+    public void testContainsAll() {
+        set.add(5);
+        set.add(3);
+        set.add(7);
+
+        List<Integer> list = Arrays.asList(3, 7);
+        assertTrue(set.containsAll(list));
+        list = Arrays.asList(3, 8);
+        assertFalse(set.containsAll(list)); // 包含不存在的元素应该返回 false
     }
     @Test
-    public void testIteratorRemove() {
-        BinarySearchSet<Integer> set = new BinarySearchSet<>();
-        set.add(1);
-        set.add(2);
-
-        Iterator<Integer> it = set.iterator();
-        assertEquals(Integer.valueOf(1), it.next());
-        it.remove(); // 移除元素 1
-
-        assertFalse(set.contains(1)); // 确保元素 1 被移除
-        assertTrue(set.contains(2)); // 确保元素 2 仍然存在
+    public void testConstructorWithComparator() {
+        Comparator<Integer> reversedComparator = Comparator.reverseOrder();
+        BinarySearchSet<Integer> setWithComparator = new BinarySearchSet<>(reversedComparator);
+        assertNotNull(setWithComparator);
+        assertEquals(reversedComparator, setWithComparator.comparator());
     }
 
+    @Test(expected = NoSuchElementException.class)
+    public void testFirstWithEmptySet() {
+        set.first(); // Should throw NoSuchElementException because the set is empty.
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void testLastWithEmptySet() {
+        set.last(); // Should throw NoSuchElementException because the set is empty.
+    }
+
+    @Test
+    public void testFirstAndLastWithNonEmptySet() {
+        set.add(5);
+        set.add(3);
+        set.add(7);
+
+        assertEquals(Integer.valueOf(3), set.first());
+        assertEquals(Integer.valueOf(7), set.last());
+    }
+    @Test
+    public void testToArray() {
+        set.add(5);
+        set.add(3);
+        set.add(7);
+
+        Object[] objectArray = set.toArray();
+
+        // Assert that each element in the array is in the set.
+        for (Object element : objectArray) {
+            assertTrue(set.contains((Integer) element)); // Cast each element to Integer
+        }
+    }
 }

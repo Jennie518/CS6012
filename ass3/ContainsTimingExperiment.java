@@ -21,7 +21,7 @@ public class ContainsTimingExperiment {
     try (FileWriter fw = new FileWriter(new File("/Users/zhanyijun/Desktop/CS6012/ass3/data.csv"))) { // open up a file writer so we can write
                                                                                 // to file.
       Random random = new Random();
-      for (int exp = 10; exp <= 15; exp++) { // This is used as the exponent to calculate the size of the set.
+      for (int exp = 10; exp <= 40; exp++) { // This is used as the exponent to calculate the size of the set.
         int size = (int) Math.pow(2, exp); // or ..
 
         // Do the experiment multiple times, and average out the results
@@ -43,7 +43,8 @@ public class ContainsTimingExperiment {
           long start = System.nanoTime();
 //          Collections.sort(set);//test contains()
 //          set.contains(findElement);
-          binarySearch.add(findElement);
+            set.add(findElement);
+//          binarySearch.add(findElement);
 
           long stop = System.nanoTime();
           totalTime += stop - start;

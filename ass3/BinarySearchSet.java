@@ -228,7 +228,9 @@ public class BinarySearchSet<E> implements SortedSet<E>,Iterable<E> {
 
     @Override
     public E[] toArray() {
-        return Arrays.copyOf(data, size);
+        Object[] objectArray = new Object[size];
+        System.arraycopy(data, 0, objectArray, 0, size);
+        return (E[]) objectArray;
     }
 
 }
